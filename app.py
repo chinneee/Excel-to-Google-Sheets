@@ -599,6 +599,7 @@ st.markdown("<br><br>", unsafe_allow_html=True)
 st.markdown("""
     <div style='text-align: center; color: white; font-size: 0.9em; padding: 1rem; background: rgba(255,255,255,0.1); border-radius: 10px;'>
         💡 <strong>Lưu ý:</strong> Service Account cần có quyền <strong>Editor</strong> trên Google Sheet<br>
-        <small>Tạo với ❤️ bằng Streamlit</small>
+        <small>Created by Trinh Nguyen❤️</small>
     </div>
 """, unsafe_allow_html=True)
+
