@@ -254,8 +254,6 @@ for i, (icon, label) in enumerate(steps_data):
                     <div style="font-size: 0.9rem; font-weight: 600; color: #10B981;">{label}</div>
                 </div>
             """, unsafe_allow_html=True)
-
-st.markdown("<br>", unsafe_allow_html=True)
         elif step_num == st.session_state.step:
             st.markdown(f"""
                 <div style="text-align: center;">
