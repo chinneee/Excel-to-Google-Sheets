@@ -38,6 +38,45 @@ st.markdown("""
         box-shadow: 0 20px 60px rgba(0,0,0,0.15);
         margin-bottom: 1.5rem;
         animation: slideUp 0.5s ease-out;
+        overflow: hidden;
+    }
+    
+    /* Scrolling text */
+    .marquee-container {
+        background: white;
+        padding: 1rem 0;
+        overflow: hidden;
+        position: relative;
+        margin: -2.5rem -2.5rem 2rem -2.5rem;
+        border-bottom: 2px solid #F3F4F6;
+    }
+    
+    .marquee {
+        display: flex;
+        white-space: nowrap;
+        animation: marquee 30s linear infinite;
+    }
+    
+    .marquee span {
+        display: inline-block;
+        padding: 0 2rem;
+        font-size: 0.95rem;
+        color: #6B7280;
+        font-weight: 500;
+    }
+    
+    .marquee span strong {
+        color: #667eea;
+        margin: 0 0.5rem;
+    }
+    
+    @keyframes marquee {
+        0% {
+            transform: translateX(0%);
+        }
+        100% {
+            transform: translateX(-50%);
+        }
     }
     
     @keyframes slideUp {
@@ -254,6 +293,8 @@ for i, (icon, label) in enumerate(steps_data):
                     <div style="font-size: 0.9rem; font-weight: 600; color: #10B981;">{label}</div>
                 </div>
             """, unsafe_allow_html=True)
+
+st.markdown("<br>", unsafe_allow_html=True)
         elif step_num == st.session_state.step:
             st.markdown(f"""
                 <div style="text-align: center;">
@@ -349,11 +390,12 @@ elif st.session_state.step == 2:
     st.markdown("<br>", unsafe_allow_html=True)
     st.markdown("#### 🔑 Service Account Credentials")
     
-    # Option to paste JSON or upload file
+    # Default to "Dán JSON" method
     auth_method = st.radio(
         "Chọn cách nhập credentials:",
         ["📋 Dán JSON", "📁 Upload file JSON"],
-        horizontal=True
+        horizontal=True,
+        index=0  # Default to first option (Dán JSON)
     )
     
     service_account_info = None
@@ -563,7 +605,7 @@ elif st.session_state.step == 3:
                 progress_bar.progress(100)
                 status_text.empty()
                 
-                # Success message
+                # Success message - NO BALLOONS
                 st.markdown("""
                     <div class="success-box" style="text-align: center; padding: 2rem;">
                         <h2 style="color: #10B981; margin: 0;">🎉 Hoàn thành!</h2>
@@ -573,7 +615,7 @@ elif st.session_state.step == 3:
                     </div>
                 """.format(len(df)), unsafe_allow_html=True)
                 
-                st.balloons()
+                # Removed: st.balloons()
                 
                 st.markdown("<br>", unsafe_allow_html=True)
                 col1, col2, col3 = st.columns([1, 2, 1])
@@ -599,7 +641,6 @@ st.markdown("<br><br>", unsafe_allow_html=True)
 st.markdown("""
     <div style='text-align: center; color: white; font-size: 0.9em; padding: 1rem; background: rgba(255,255,255,0.1); border-radius: 10px;'>
         💡 <strong>Lưu ý:</strong> Service Account cần có quyền <strong>Editor</strong> trên Google Sheet<br>
-        <small>Created by Trinh Nguyen❤️</small>
+        <small>Tạo với ❤️ bằng Streamlit</small>
     </div>
 """, unsafe_allow_html=True)
-
