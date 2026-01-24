@@ -217,6 +217,34 @@ st.markdown("""
         border-top-color: #667eea !important;
     }
     </style>
+    /* --- CSS cho dòng chữ chạy (Marquee) --- */
+    .marquee-container {
+        width: 100%;
+        overflow: hidden;
+        white-space: nowrap;
+        background: rgba(255, 255, 255, 0.1); 
+        padding: 8px 0;
+        position: fixed;
+        bottom: 0; /* Đặt ở dưới cùng để không che mất Header của bạn */
+        left: 0;
+        z-index: 9999;
+        border-top: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .marquee-text {
+        display: inline-block;
+        padding-left: 100%;
+        animation: marquee 25s linear infinite;
+        color: white;
+        font-weight: 500;
+        font-size: 0.95rem;
+        text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+    }
+
+    @keyframes marquee {
+        0% { transform: translate(0, 0); }
+        100% { transform: translate(-100%, 0); }
+    }
 """, unsafe_allow_html=True)
 
 # Header
@@ -603,5 +631,6 @@ st.markdown("""
         <small>Tạo với ❤️ bằng Streamlit</small>
     </div>
 """, unsafe_allow_html=True)
+
 
 
