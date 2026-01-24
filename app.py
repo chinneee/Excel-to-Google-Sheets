@@ -76,66 +76,7 @@ st.markdown("""
         to { opacity: 1; }
     }
     
-    /* Progress steps */
-    .progress-container {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 2.5rem;
-        position: relative;
-    }
-    
-    .progress-step {
-        flex: 1;
-        text-align: center;
-        position: relative;
-        z-index: 2;
-    }
-    
-    .step-circle {
-        width: 60px;
-        height: 60px;
-        border-radius: 50%;
-        margin: 0 auto 0.5rem;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 1.5rem;
-        font-weight: bold;
-        transition: all 0.3s ease;
-        border: 3px solid #E5E7EB;
-        background: white;
-        color: #9CA3AF;
-    }
-    
-    .step-circle.active {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        color: white;
-        border-color: #667eea;
-        box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
-        transform: scale(1.1);
-    }
-    
-    .step-circle.completed {
-        background: #10B981;
-        border-color: #10B981;
-        color: white;
-    }
-    
-    .step-label {
-        font-size: 0.9rem;
-        font-weight: 600;
-        color: #6B7280;
-    }
-    
-    .step-label.active {
-        color: #667eea;
-    }
-    
-    .step-label.completed {
-        color: #10B981;
-    }
-    
+
     /* Upload box */
     .upload-box {
         border: 3px dashed #667eea;
@@ -290,40 +231,49 @@ st.markdown("""
 if 'step' not in st.session_state:
     st.session_state.step = 1
 
-# Progress Steps
-progress_html = """
-<div class="progress-container">
-"""
+# Progress Steps - Using Streamlit columns instead of HTML
+st.markdown('<div class="custom-card">', unsafe_allow_html=True)
 
 steps_data = [
-    ("1", "📤", "Upload"),
-    ("2", "⚙️", "Cấu hình"),
-    ("3", "✅", "Thực thi")
+    ("📤", "Upload"),
+    ("⚙️", "Cấu hình"),
+    ("✅", "Thực thi")
 ]
 
-for i, (num, icon, label) in enumerate(steps_data):
-    step_num = int(num)
-    if step_num < st.session_state.step:
-        circle_class = "completed"
-        label_class = "completed"
-    elif step_num == st.session_state.step:
-        circle_class = "active"
-        label_class = "active"
-    else:
-        circle_class = ""
-        label_class = ""
-    
-    progress_html += f"""
-    <div class="progress-step">
-        <div class="step-circle {circle_class}">{icon}</div>
-        <div class="step-label {label_class}">{label}</div>
-    </div>
-    """
+st.markdown("<br>", unsafe_allow_html=True)
+cols = st.columns(3)
+for i, (icon, label) in enumerate(steps_data):
+    step_num = i + 1
+    with cols[i]:
+        if step_num < st.session_state.step:
+            st.markdown(f"""
+                <div style="text-align: center;">
+                    <div style="width: 60px; height: 60px; border-radius: 50%; margin: 0 auto 0.5rem; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; background: #10B981; color: white; border: 3px solid #10B981;">
+                        {icon}
+                    </div>
+                    <div style="font-size: 0.9rem; font-weight: 600; color: #10B981;">{label}</div>
+                </div>
+            """, unsafe_allow_html=True)
 
-progress_html += "</div>"
-
-st.markdown('<div class="custom-card">', unsafe_allow_html=True)
-st.markdown(progress_html, unsafe_allow_html=True)
+st.markdown("<br>", unsafe_allow_html=True)
+        elif step_num == st.session_state.step:
+            st.markdown(f"""
+                <div style="text-align: center;">
+                    <div style="width: 60px; height: 60px; border-radius: 50%; margin: 0 auto 0.5rem; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: 3px solid #667eea; box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4); transform: scale(1.1);">
+                        {icon}
+                    </div>
+                    <div style="font-size: 0.9rem; font-weight: 600; color: #667eea;">{label}</div>
+                </div>
+            """, unsafe_allow_html=True)
+        else:
+            st.markdown(f"""
+                <div style="text-align: center;">
+                    <div style="width: 60px; height: 60px; border-radius: 50%; margin: 0 auto 0.5rem; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; background: white; color: #9CA3AF; border: 3px solid #E5E7EB;">
+                        {icon}
+                    </div>
+                    <div style="font-size: 0.9rem; font-weight: 600; color: #6B7280;">{label}</div>
+                </div>
+            """, unsafe_allow_html=True)
 
 # Step 1: Upload Excel
 if st.session_state.step == 1:
@@ -651,6 +601,6 @@ st.markdown("<br><br>", unsafe_allow_html=True)
 st.markdown("""
     <div style='text-align: center; color: white; font-size: 0.9em; padding: 1rem; background: rgba(255,255,255,0.1); border-radius: 10px;'>
         💡 <strong>Lưu ý:</strong> Service Account cần có quyền <strong>Editor</strong> trên Google Sheet<br>
-        <small>Tạo với ❤️ bằng Streamlit</small>
+        <small>Created by Trinh Nguyen</small>
     </div>
 """, unsafe_allow_html=True)
