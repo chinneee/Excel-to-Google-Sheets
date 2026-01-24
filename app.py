@@ -38,45 +38,6 @@ st.markdown("""
         box-shadow: 0 20px 60px rgba(0,0,0,0.15);
         margin-bottom: 1.5rem;
         animation: slideUp 0.5s ease-out;
-        overflow: hidden;
-    }
-    
-    /* Scrolling text */
-    .marquee-container {
-        background: white;
-        padding: 1rem 0;
-        overflow: hidden;
-        position: relative;
-        margin: -2.5rem -2.5rem 2rem -2.5rem;
-        border-bottom: 2px solid #F3F4F6;
-    }
-    
-    .marquee {
-        display: flex;
-        white-space: nowrap;
-        animation: marquee 30s linear infinite;
-    }
-    
-    .marquee span {
-        display: inline-block;
-        padding: 0 2rem;
-        font-size: 0.95rem;
-        color: #6B7280;
-        font-weight: 500;
-    }
-    
-    .marquee span strong {
-        color: #667eea;
-        margin: 0 0.5rem;
-    }
-    
-    @keyframes marquee {
-        0% {
-            transform: translateX(0%);
-        }
-        100% {
-            transform: translateX(-50%);
-        }
     }
     
     @keyframes slideUp {
@@ -293,8 +254,6 @@ for i, (icon, label) in enumerate(steps_data):
                     <div style="font-size: 0.9rem; font-weight: 600; color: #10B981;">{label}</div>
                 </div>
             """, unsafe_allow_html=True)
-
-st.markdown("<br>", unsafe_allow_html=True)
         elif step_num == st.session_state.step:
             st.markdown(f"""
                 <div style="text-align: center;">
