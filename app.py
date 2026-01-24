@@ -390,12 +390,11 @@ elif st.session_state.step == 2:
     st.markdown("<br>", unsafe_allow_html=True)
     st.markdown("#### 🔑 Service Account Credentials")
     
-    # Default to "Dán JSON" method
+    # Option to paste JSON or upload file
     auth_method = st.radio(
         "Chọn cách nhập credentials:",
         ["📋 Dán JSON", "📁 Upload file JSON"],
-        horizontal=True,
-        index=0  # Default to first option (Dán JSON)
+        horizontal=True
     )
     
     service_account_info = None
@@ -605,7 +604,7 @@ elif st.session_state.step == 3:
                 progress_bar.progress(100)
                 status_text.empty()
                 
-                # Success message - NO BALLOONS
+                # Success message
                 st.markdown("""
                     <div class="success-box" style="text-align: center; padding: 2rem;">
                         <h2 style="color: #10B981; margin: 0;">🎉 Hoàn thành!</h2>
@@ -615,7 +614,7 @@ elif st.session_state.step == 3:
                     </div>
                 """.format(len(df)), unsafe_allow_html=True)
                 
-                # Removed: st.balloons()
+                st.balloons()
                 
                 st.markdown("<br>", unsafe_allow_html=True)
                 col1, col2, col3 = st.columns([1, 2, 1])
