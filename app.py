@@ -353,7 +353,8 @@ elif st.session_state.step == 2:
     auth_method = st.radio(
         "Chọn cách nhập credentials:",
         ["📋 Dán JSON", "📁 Upload file JSON"],
-        horizontal=True
+        horizontal=True,
+        index=1  # <-- 0 là dán JSON, 1 là upload file
     )
     
     service_account_info = None
@@ -602,3 +603,4 @@ st.markdown("""
         <small>Tạo với ❤️ bằng Streamlit</small>
     </div>
 """, unsafe_allow_html=True)
+
