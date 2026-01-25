@@ -574,8 +574,6 @@ elif st.session_state.step == 3:
                     </div>
                 """.format(len(df)), unsafe_allow_html=True)
                 
-                st.balloons()
-                
                 st.markdown("<br>", unsafe_allow_html=True)
                 col1, col2, col3 = st.columns([1, 2, 1])
                 with col2:
