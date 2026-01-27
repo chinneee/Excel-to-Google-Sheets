@@ -341,7 +341,7 @@ elif st.session_state.step == 2:
     
     gsheet_id = st.text_input(
         "🔗 Google Sheet ID",
-        value="1j58-lkXBD7z6ZjpmUin0J8uiCeWD9Xtrbl1j-rKeuok",
+        value="1ptQG-G7EKurW4KPbEGLRFozrSDr3ZhADut92lHGL730",
         help="Lấy từ URL: docs.google.com/spreadsheets/d/[SHEET_ID]/edit",
         placeholder="Ví dụ: 14g1NFdrmOFB_nyy74f5dNluV5bHG6_T9vS0_ez2Ao1s"
     )
