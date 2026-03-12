@@ -6,6 +6,7 @@ from google.oauth2.service_account import Credentials
 import json
 from io import BytesIO
 import time
+from openpyxl import load_workbook
 
 # Page config
 st.set_page_config(
@@ -296,9 +297,15 @@ if st.session_state.step == 1:
         # Preview
         with st.expander("👁️ Xem trước dữ liệu", expanded=False):
             try:
-                df_preview = pd.read_excel(uploaded_file, sheet_name=0, nrows=10)
-                st.dataframe(df_preview, use_container_width=True, height=300)
-                st.caption(f"Hiển thị 10/{len(df_preview)} dòng đầu tiên")
+                xls = pd.ExcelFile(uploaded_file)
+
+                if "Template" in xls.sheet_names:
+                    df_preview = pd.read_excel(xls, sheet_name="Template", nrows=10)
+                    st.dataframe(df_preview, use_container_width=True, height=300)
+                    st.caption("Hiển thị 10 dòng đầu của sheet 'Template'")
+                else:
+                    st.warning("⚠️ File không có sheet 'Template'")
+
             except Exception as e:
                 st.error(f"⚠️ Không thể xem trước: {str(e)}")
         
@@ -490,15 +497,31 @@ elif st.session_state.step == 3:
                 progress_bar.progress(10)
                 time.sleep(0.5)
                 
-                df = pd.read_excel(
-                    st.session_state.uploaded_file,
-                    sheet_name=config['excel_sheet_name'],
-                    engine="openpyxl",
-                    skiprows=config['start_row'] - 1,
-                    header=None
-                )
+                from openpyxl import load_workbook
+
+                status_text.markdown("### 📥 Đang đọc file Excel...")
+                progress_bar.progress(10)
+
+                wb = load_workbook(st.session_state.uploaded_file, data_only=True)
+                ws_excel = wb[config['excel_sheet_name']]
+
+                start_row = config['start_row']
+
+                data = []
+
+                for row in ws_excel.iter_rows(min_row=start_row, values_only=True):
+                    if any(cell is not None for cell in row):
+                        data.append([("" if v is None else v) for v in row])
+
+                if not data:
+                    st.warning("⚠️ Không tìm thấy dữ liệu trong file.")
+                    st.stop()
+
+                progress_bar.progress(30)
+                st.success(f"✅ Đã đọc {len(data)} dòng × {len(data[0])} cột")
                 
                 # Clean data
+                df = pd.DataFrame(data)
                 df = df.dropna(how="all")
                 df = df.replace([np.nan, np.inf, -np.inf], "")
                 
@@ -555,10 +578,16 @@ elif st.session_state.step == 3:
                 progress_bar.progress(90)
                 time.sleep(0.5)
                 
-                ws.append_rows(
-                    df.values.tolist(),
-                    value_input_option="RAW",
-                    table_range=f"A{config['start_row']}"
+                start_row = config['start_row']
+                end_row = start_row + len(data) - 1
+                end_col = chr(65 + len(data[0]) - 1)
+
+                range_write = f"A{start_row}:{end_col}{end_row}"
+
+                ws.update(
+                    range_write,
+                    data,
+                    value_input_option="RAW"
                 )
                 
                 progress_bar.progress(100)
