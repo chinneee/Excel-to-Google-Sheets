@@ -328,7 +328,7 @@ elif st.session_state.step == 2:
         start_row = st.number_input(
             "📍 Dòng bắt đầu",
             min_value=1,
-            value=1,
+            value=7,
             help="Bắt đầu đọc từ dòng số mấy (bỏ qua header)"
         )
     
